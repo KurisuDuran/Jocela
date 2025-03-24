@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jocela Mariz Elgario</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center;
+        }
+        h1 {
+            background-color: blue;
+            color: pink;
+            text-align: center;
+            padding: 10px;
+        }
+        p {
+            color: blue;
+            font-size: 150%;
+        }
+        label {
+            color: blue;
+            font-family: Verdana;
+            font-size: 150%;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 400px;
+            height: 300px;
+            margin: auto;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <h1><em>&#128140; I LOVE YOU LANGGA &#128140;</em></h1>
+    <br>
+    
+    <div class="slideshow-container">
+        <img class="slide" src="J1.jpg" alt="J 1">
+        <img class="slide" src="J2.jpg" alt="J 2">
+        <img class="slide" src="J3.jpg" alt="J 3">
+    </div>
+    
+    <br>
+    <form id="loveForm">
+        <p>LAB AKO?</p>
+        <input type="radio" id="yes" name="love_me" value="Yes">
+        <label for="yes">Yes</label><br>
+        <input type="radio" id="no" name="love_me" value="No">
+        <label for="no">No</label><br>
+        <br>
+
+        <p>Ngaa Lab ako?</p>
+        <textarea id="message" name="message" rows="5" cols="50"></textarea>
+        <br><br>
+
+        <button type="button" onclick="saveResponse()">Submit</button>
+    </form>
+
+    <h2>Response:</h2>
+    <p id="responseText"></p>
+
+    <script>
+        let currentSlide = 0;
+        function showSlides() {
+            let slides = document.querySelectorAll(".slide");
+            slides.forEach(slide => slide.style.display = "none");
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].style.display = "block";
+        }
+        
+        function startSlideshow() {
+            showSlides();
+            setInterval(showSlides, 1000);
+        }
+        
+        window.onload = function() {
+            startSlideshow();
+            displayResponse();
+        };
+
+        function saveResponse() {
+            let loveResponse = document.querySelector('input[name="love_me"]:checked');
+            let message = document.getElementById("message").value;
+
+            if (loveResponse) {
+                localStorage.setItem("loveResponse", loveResponse.value);
+                localStorage.setItem("loveMessage", message);
+                displayResponse();
+            } else {
+                alert("Please select an option before submitting!");
+            }
+        }
+
+        function displayResponse() {
+            let savedResponse = localStorage.getItem("loveResponse");
+            let savedMessage = localStorage.getItem("loveMessage");
+
+            if (savedResponse) {
+                document.getElementById("responseText").innerHTML = 
+                    "<strong>Love Response:</strong> " + savedResponse + "<br>" +
+                    "<strong>Reason:</strong> " + (savedMessage || "No reason given.");
+            }
+        }
+    </script>
+
+</body>
+</html>
